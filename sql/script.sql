@@ -21,17 +21,17 @@ CREATE TABLE funcionarios(
 
 CREATE TABLE marcas(
   id_marca SERIAL PRIMARY KEY,
-  marca VARCHAR(50) UNIQUE NOT NULL
+  nome VARCHAR(50) UNIQUE NOT NULL
 );
 
 CREATE TABLE modelos(
   id_modelo SERIAL PRIMARY KEY,
   id_marca INT NOT NULL,
-  modelo VARCHAR(100) NOT NULL,
+  nome VARCHAR(100) NOT NULL,
   categoria VARCHAR(20) NOT NULL
     CHECK(categoria IN ('hatch', 'sedan', 'suv', 'picape')),
 
-  UNIQUE(id_marca, modelo),
+  UNIQUE(id_marca, nome),
 
   FOREIGN KEY (id_marca) REFERENCES marcas(id_marca)
     ON DELETE RESTRICT ON UPDATE RESTRICT
@@ -58,7 +58,7 @@ CREATE TABLE vendas(
   id_venda SERIAL PRIMARY KEY,
   id_cliente INT NOT NULL,
   id_funcionario INT NOT NULL,
-  id_veiculo INT NOT NULL,
+  id_veiculo INT NOT NULL UNIQUE,
   data_venda DATE NOT NULL DEFAULT CURRENT_DATE,
   valor_venda NUMERIC(10, 2) NOT NULL
     CHECK(valor_venda > 0),
