@@ -28,7 +28,7 @@ def validate_phone(phone):
 
     return phone
 
-def validade_email(email):
+def validate_email(email):
     if email is None:
         return None
 
