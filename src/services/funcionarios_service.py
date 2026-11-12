@@ -1,8 +1,13 @@
-from utils.validators import validate_cpf, validate_phone
-from utils.auth.password import  hash_password, verify_password
-from repositories import funcionarios_repository as rep
+import psycopg
+
+from src.utils.validators import validate_cpf, validate_phone
+from src.utils.auth.password import  hash_password, verify_password
+from src.repositories import funcionarios_repository as rep
 
 def cadastrar_funcionario(nome, cpf, telefone, cargo, login, senha):
+    """
+        Valida os dados, gera o hash da senha e cadastra o funcionário, tratando CPF ou login duplicados.
+    """
     nome = nome.strip()
 
     if not nome or len(nome) > 250:
@@ -26,12 +31,21 @@ def cadastrar_funcionario(nome, cpf, telefone, cargo, login, senha):
 
     senha_hash = hash_password(senha)
 
-    return rep.criar_funcionario(nome, cpf, telefone, cargo, login, senha_hash)
+    try:
+        return rep.criar_funcionario(nome, cpf, telefone, cargo, login, senha_hash)
+    except psycopg.errors.UniqueViolation as erro:
+        raise ValueError('CPF ou login já cadastrado.') from erro
 
 def listar_funcionarios():
+    """
+        Retorna os funcionários cadastrados consultando o repositório.
+    """
     return rep.listar_funcionarios()
 
 def listar_funcionario_por_id(id_funcionario):
+    """
+        Busca o funcionário pelo ID e informa quando o cadastro não existe.
+    """
     funcionario = rep.listar_funcionario_por_id(id_funcionario)
 
     if funcionario is None:
@@ -40,6 +54,9 @@ def listar_funcionario_por_id(id_funcionario):
     return funcionario
 
 def atualizar_funcionario(nome, cpf, telefone, cargo, id_funcionario):
+    """
+        Valida e atualiza os dados e o cargo do funcionário, tratando CPF duplicado ou cadastro inexistente.
+    """
     nome = nome.strip()
     
     if not nome or len(nome) > 250:
@@ -53,7 +70,10 @@ def atualizar_funcionario(nome, cpf, telefone, cargo, id_funcionario):
     if cargo not in ('admin', 'vendedor'):
         raise ValueError('O cargo deve ser admin ou vendedor')
 
-    atualizado = rep.atualizar_funcionario(nome, cpf, telefone, cargo, id_funcionario)
+    try:
+        atualizado = rep.atualizar_funcionario(nome, cpf, telefone, cargo, id_funcionario)
+    except psycopg.errors.UniqueViolation as erro:
+        raise ValueError('CPF já cadastrado.') from erro
 
     if not atualizado:
         raise ValueError('Funcionário não encontrado ou não existe.')
@@ -61,6 +81,9 @@ def atualizar_funcionario(nome, cpf, telefone, cargo, id_funcionario):
     return atualizado
 
 def atualizar_login_funcionario(login, senha, id_funcionario):
+    """
+        Valida e atualiza o login e a senha, tratando login duplicado ou cadastro inexistente.
+    """
     login = login.strip()
 
     if not login or len(login) > 50:
@@ -71,7 +94,10 @@ def atualizar_login_funcionario(login, senha, id_funcionario):
 
     senha_hash = hash_password(senha)
 
-    atualizado = rep.atualizar_login_funcionario(login, senha_hash, id_funcionario)
+    try:
+        atualizado = rep.atualizar_login_funcionario(login, senha_hash, id_funcionario)
+    except psycopg.errors.UniqueViolation as erro:
+        raise ValueError('Login já cadastrado.') from erro
 
     if not atualizado:
         raise ValueError("Funcionário não encontrado.")
@@ -79,6 +105,9 @@ def atualizar_login_funcionario(login, senha, id_funcionario):
     return atualizado
 
 def deletar_funcionario(id_funcionario):
+    """
+        Solicita a exclusão do funcionário e informa quando o cadastro não existe.
+    """
     deletado = rep.deletar_funcionario(id_funcionario)
 
     if not deletado:
@@ -87,6 +116,9 @@ def deletar_funcionario(id_funcionario):
     return deletado
 
 def autenticar_funcionario(login, senha):
+    """
+        Valida o login e a senha e retorna o ID, o nome e o cargo do funcionário autenticado.
+    """
     login = login.strip()
 
     funcionario = rep.listar_funcionario_por_login(login)
@@ -94,13 +126,11 @@ def autenticar_funcionario(login, senha):
     if funcionario is None:
         raise ValueError('Login ou senha inválidos.')
 
-    id_funcionario, nome, cargo, senha_hash = funcionario
-
-    if not verify_password(senha, senha_hash):
+    if not verify_password(senha, funcionario["senha_hash"]):
         raise ValueError('Login ou senha inválidos.')
 
     return {
-        'id_funcionario': id_funcionario,
-        'nome': nome,
-        'cargo': cargo
+        'id_funcionario': funcionario['id_funcionario'],
+        'nome': funcionario['nome'],
+        'cargo': funcionario['cargo']
     }
