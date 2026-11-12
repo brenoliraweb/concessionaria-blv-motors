@@ -1,6 +1,9 @@
 import re
 
 def validate_cpf(cpf):
+    """
+        Remove a formatação e valida se o CPF contém exatamente 11 dígitos.
+    """
     if type(cpf) is not str:
         raise ValueError('CPF inválido.')
 
@@ -12,6 +15,9 @@ def validate_cpf(cpf):
     return cpf
 
 def validate_phone(phone):
+    """
+        Remove a formatação e valida o telefone conforme o padrão de 11 a 13 dígitos.
+    """
     if type(phone) is not str:
         raise ValueError('Telefone inválido.')
 
@@ -29,6 +35,9 @@ def validate_phone(phone):
     return phone
 
 def validate_email(email):
+    """
+        Valida o formato e o tamanho do e-mail, permitindo um valor não informado.
+    """
     if email is None:
         return None
 
@@ -48,6 +57,9 @@ def validate_email(email):
     return email
 
 def validate_chassis(chassis):
+    """
+        Padroniza o chassi em letras maiúsculas e valida seus 17 caracteres.
+    """
     if type(chassis) is not str:
         raise ValueError('Chassis inválido.')
 
@@ -61,6 +73,9 @@ def validate_chassis(chassis):
     return chassis
 
 def validate_plate(plate):
+    """
+        Padroniza e valida a placa nos formatos antigo ou Mercosul, permitindo um valor não informado.
+    """
     if plate is None:
         return None
 
@@ -81,6 +96,9 @@ def validate_plate(plate):
     return plate
 
 def validate_text(value, max_length):
+    """
+        Remove espaços das extremidades e valida o preenchimento e o tamanho máximo do texto.
+    """
 
     value = value.strip()
 

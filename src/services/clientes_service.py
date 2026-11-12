@@ -12,6 +12,9 @@ from src.utils.validators import (
 )
 
 def cadastrar_cliente(nome, cpf, telefone, email=None):
+  """
+      Valida os dados do cliente e solicita o cadastro, tratando CPF ou e-mail duplicados.
+  """
   nome = validate_text(nome, 250)
   cpf = validate_cpf(cpf)
   telefone = validate_phone(telefone)
@@ -27,4 +30,7 @@ def cadastrar_cliente(nome, cpf, telefone, email=None):
     raise ValueError("CPF ou email já cadastrado.")
 
 def listar_clientes():
+    """
+        Retorna os clientes cadastrados consultando o repositório.
+    """
     return listar_clientes_repository()
