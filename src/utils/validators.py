@@ -81,6 +81,7 @@ def validate_plate(plate):
     return plate
 
 def validate_text(value, max_length):
+
     value = value.strip()
 
     if not value:
@@ -88,5 +89,16 @@ def validate_text(value, max_length):
 
     if len(value) > max_length:
         raise ValueError('O texto está muito longo.')
+
+    return value
+
+def validate_id(value):
+    try:
+        value = int(value)
+    except (ValueError, TypeError):
+        raise ValueError('Informe um ID válido.')
+
+    if value <= 0:
+        raise ValueError('Informe um ID válido.')
 
     return value
