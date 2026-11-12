@@ -39,6 +39,16 @@ def listar_funcionario_por_id(id_funcionario):
             cur.execute(sql, (id_funcionario,))
             return cur.fetchone()
 
+def listar_funcionario_por_login(login):
+    sql = """
+        SELECT id_funcionario, nome, cpf, telefone, cargo
+        FROM funcionarios
+        WHERE login = %s;
+    """
+    with connection_database() as conn:
+        with conn.cursor() as cur:
+            cur.execute(sql, (login,))
+            return cur.fetchone()
 
 def atualizar_funcionario(nome, cpf, telefone, cargo, id_funcionario):
     sql = """
