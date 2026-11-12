@@ -17,7 +17,7 @@ O cargo é definido como `admin`, e só é possível cadastrar se a tabela estiv
 vazia. O bloqueio da tabela, a consulta e o INSERT usam a mesma transação;
 o commit confirma o cadastro e o rollback desfaz em caso de erro.
 
-A senha é lida com `getpass` e armazenada apenas como hash bcrypt com salt.
+A senha é lida com `input` e armazenada apenas como hash bcrypt com salt.
 Exige no mínimo 8 caracteres e no máximo 72 bytes em UTF-8, sem remover espaços
 nem truncar. O CPF é validado pelo formato de 11 dígitos, sem validar os dígitos
 verificadores. Nome, telefone e login são obrigatórios e respeitam os limites SQL.
@@ -31,7 +31,7 @@ src/
 ├── services/        # validações e regras de negócio
 ├── views/           # telas do terminal (menus, input e print)
 ├── utils/           # funções reaproveitadas por todos
-└── main.py          # menu principal
+└── main.py          # inicialização e ciclo de login
 sql/                 # script do banco (apenas referência)
 ```
 
@@ -57,7 +57,19 @@ Cada assunto tem um arquivo por pasta com o mesmo prefixo:
 - `services/clientes_service.py`
 - `views/clientes_view.py`
 
-Cada view tem uma função `menu()`, chamada no `main.py`.
+Os menus ficam em `views/`, e o `main.py` inicia o sistema e controla a sessão:
+
+- `auth_views.py`: login; retorna o funcionário autenticado ou `None` ao encerrar.
+- `principal_views.py`: escolhe o painel pelo cargo retornado pela autenticação.
+- `admin_views.py`: painel do administrador, com clientes e funcionários.
+- `vendedor_views.py`: cadastro de cliente, busca por nome e registro de venda.
+  Apenas o cadastro está implementado; as demais opções indicam "Em desenvolvimento".
+- `clientes_views.py` e `funcionarios_views.py`: menus de cada área.
+
+Ao escolher **Sair da conta**, o sistema volta ao login. Um cargo desconhecido
+não abre nenhum painel. Opções sem telas continuam indicando
+"Em desenvolvimento". A separação de menus controla a navegação do terminal;
+novas formas de acesso aos serviços precisarão validar as permissões também.
 
 ---
 
@@ -139,8 +151,10 @@ Por último, copie o arquivo `.env.example`, renomeie a cópia para `.env` e pre
 Para rodar o sistema:
 
 ```bash
-python src/main.py
+python -m src.main
 ```
+
+Também é possível executar `python src/main.py` na raiz do projeto.
 
 ### 2. Começar uma tarefa
 
