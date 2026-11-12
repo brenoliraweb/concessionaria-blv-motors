@@ -1,6 +1,6 @@
 from utils.validators import validate_cpf, validate_phone
 from utils.auth.password import  hash_password
-from repositories import funcionario_repository as rep
+from repositories import funcionarios_repository as rep
 
 def cadastrar_funcionario(nome, cpf, telefone, cargo, login, senha):
     nome = nome.strip()
