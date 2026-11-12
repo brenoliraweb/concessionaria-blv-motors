@@ -24,13 +24,10 @@ def connection_database():
 
         return conn
 
-    except psycopg.OperationalError as err:
-        print(f'[Erro de conexão]: Não foi possível conectar ao banco de dados. Verifique suas credenciais ou a rede.')
-        print(f'Error: {err}')
+    except psycopg.OperationalError:
         raise
 
-    except Exception as err:
-        print(f'[Erro inesperado]: Ocorreu um erro ao tentar configurar a conexão: {err}')
+    except Exception:
         raise
 
 def test_connection():
