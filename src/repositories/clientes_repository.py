@@ -41,9 +41,9 @@ def listar_clientes_por_id(id_cliente):
               FROM clientes 
               WHERE id_cliente = %s 
               """,
-              (id_cliente)
+              (id_cliente,)
           )
-          return cursor.fetchone
+          return cursor.fetchone()
 
 def atualizar_cliente(id_cliente, nome, cpf, telefone, email):
     with connection_database() as con:
@@ -59,3 +59,16 @@ def atualizar_cliente(id_cliente, nome, cpf, telefone, email):
           atualizado = cursor.rowcount > 0
         con.commit()
         return atualizado  
+      
+def excluir_cliente(id_cliente):
+    with connection_database() as con:
+      with con.cursor() as cursor:
+        cursor.execute(
+          """
+          DELETE FROM clientes WHERE id_cliente = %s
+          """,
+          (id_cliente,)
+        )
+        excluido = cursor.rowcount > 0
+      con.commit()
+      return excluido

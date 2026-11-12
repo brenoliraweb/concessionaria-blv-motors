@@ -19,7 +19,7 @@ def menu_admin(funcionario=None):
         opcao = input('Opção: ').strip()
 
         if opcao == '1':
-            menu_clientes()
+            menu_clientes(funcionario)
         elif opcao == '2':
             menu_funcionarios()
         elif opcao == '0':
