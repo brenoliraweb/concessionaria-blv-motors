@@ -3,6 +3,25 @@
 Sistema de terminal em Python para gerenciar o banco de dados da concessionária fictícia BLV Motors.
 Trabalho da disciplina Projeto de Banco de Dados (CESMAC).
 
+## Primeiro administrador
+
+Com as dependências instaladas e o `.env` configurado, execute na raiz:
+
+```bash
+python -m src.criar_primeiro_admin
+```
+
+A tabela `funcionarios` precisa existir; o script não cria tabelas. Esta execução
+grava no banco configurado, portanto use somente quando for realizar o cadastro.
+O cargo é definido como `admin`, e só é possível cadastrar se a tabela estiver
+vazia. O bloqueio da tabela, a consulta e o INSERT usam a mesma transação;
+o commit confirma o cadastro e o rollback desfaz em caso de erro.
+
+A senha é lida com `getpass` e armazenada apenas como hash bcrypt com salt.
+Exige no mínimo 8 caracteres e no máximo 72 bytes em UTF-8, sem remover espaços
+nem truncar. O CPF é validado pelo formato de 11 dígitos, sem validar os dígitos
+verificadores. Nome, telefone e login são obrigatórios e respeitam os limites SQL.
+
 ## Estrutura de pastas
 
 ```

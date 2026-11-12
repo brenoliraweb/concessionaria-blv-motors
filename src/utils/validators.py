@@ -79,3 +79,14 @@ def validate_plate(plate):
         raise ValueError('O formato da placa é inválido.')
 
     return plate
+
+def validate_text(value, max_length):
+    value = value.strip()
+
+    if not value:
+        raise ValueError('Preencha este campo.')
+
+    if len(value) > max_length:
+        raise ValueError('O texto está muito longo.')
+
+    return value
