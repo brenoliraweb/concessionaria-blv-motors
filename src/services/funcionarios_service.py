@@ -1,5 +1,5 @@
 from utils.validators import validate_cpf, validate_phone
-from utils.auth.password import  hash_password
+from utils.auth.password import  hash_password, verify_password
 from repositories import funcionarios_repository as rep
 
 def cadastrar_funcionario(nome, cpf, telefone, cargo, login, senha):
@@ -85,3 +85,22 @@ def deletar_funcionario(id_funcionario):
         raise ValueError('Funcionário não encontrado ou não existe.')
 
     return deletado
+
+def autenticar_funcionario(login, senha):
+    login = login.strip()
+
+    funcionario = rep.listar_funcionario_por_login(login)
+
+    if funcionario is None:
+        raise ValueError('Login ou senha inválidos.')
+
+    id_funcionario, nome, cargo, senha_hash = funcionario
+
+    if not verify_password(senha, senha_hash):
+        raise ValueError('Login ou senha inválidos.')
+
+    return {
+        'id_funcionario': id_funcionario,
+        'nome': nome,
+        'cargo': cargo
+    }
