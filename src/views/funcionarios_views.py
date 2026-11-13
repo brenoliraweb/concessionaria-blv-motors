@@ -1,13 +1,15 @@
+"""Telas de funcionários, credenciais e alteração de cargo."""
+
 import psycopg
 
 from src.utils.terminal import limpar_terminal, pausar_terminal
 from src.services.funcionarios_service import (
-    cadastrar_funcionario,
-    listar_funcionarios,
-    listar_funcionario_por_id,
     atualizar_funcionario,
     atualizar_login_funcionario,
+    cadastrar_funcionario,
     deletar_funcionario,
+    listar_funcionario_por_id,
+    listar_funcionarios,
 )
 
 
@@ -57,6 +59,7 @@ def tela_listar_funcionarios():
 
 
 def tela_buscar_funcionario_por_id():
+    """Solicita o ID e mostra os dados do funcionário, sem expor a senha."""
     limpar_terminal()
     print('\n--- Buscar funcionário por ID ---')
 
@@ -78,6 +81,7 @@ def tela_buscar_funcionario_por_id():
 
 
 def tela_atualizar_funcionario():
+    """Permite atualizar um campo ou todos os dados pessoais e o cargo."""
     limpar_terminal()
     print('\n--- Atualizar funcionário ---')
 
@@ -129,6 +133,7 @@ def tela_atualizar_funcionario():
 
 
 def tela_atualizar_login_funcionario():
+    """Solicita novas credenciais, permitindo manter o login atual."""
     limpar_terminal()
     print('\n--- Alterar login e senha ---')
 
@@ -152,6 +157,7 @@ def tela_atualizar_login_funcionario():
 
 
 def tela_excluir_funcionario():
+    """Apresenta o funcionário e confirma a exclusão antes de executá-la."""
     limpar_terminal()
     print('\n--- Excluir funcionário ---')
 
@@ -161,7 +167,9 @@ def tela_excluir_funcionario():
 
         print(f"\nNome: {funcionario['nome']}")
         print(f"CPF: {funcionario['cpf']}")
-        confirmacao = input('\nDeseja excluir este funcionário? (s/n): ').strip().lower()
+        confirmacao = input(
+            '\nDeseja excluir este funcionário? (s/n): '
+        ).strip().lower()
 
         if confirmacao != 's':
             print('Exclusão cancelada.')
@@ -177,6 +185,7 @@ def tela_excluir_funcionario():
 
 
 def tela_elevar_cargo_funcionario():
+    """Confirma a promoção de um vendedor para administrador."""
     limpar_terminal()
     print('\n--- Elevar cargo para administrador ---')
 
@@ -191,7 +200,9 @@ def tela_elevar_cargo_funcionario():
             print('O funcionário já é administrador.')
             return
 
-        confirmacao = input('\nDeseja promover este funcionário a administrador? (s/n): ').strip().lower()
+        confirmacao = input(
+            '\nDeseja promover este funcionário a administrador? (s/n): '
+        ).strip().lower()
 
         if confirmacao != 's':
             print('Promoção cancelada.')
@@ -210,9 +221,7 @@ def tela_elevar_cargo_funcionario():
 
 
 def menu_funcionarios():
-    """
-        Exibe o menu de funcionários e direciona para as telas disponíveis.
-    """
+    """Exibe o menu de funcionários e direciona para as telas disponíveis."""
     while True:
         limpar_terminal()
         print('\n--- Funcionários ---')
@@ -251,7 +260,8 @@ def menu_funcionarios():
 
 def primeiro_funcionario():
     """
-        Solicita os dados e cadastra um administrador quando chamada manualmente na configuração inicial.
+    Solicita os dados e cadastra um administrador quando chamada manualmente na
+    configuração inicial.
     """
     limpar_terminal()
     print('\n--- Cadastro inicial de administrador ---')

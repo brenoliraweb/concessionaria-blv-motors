@@ -1,11 +1,15 @@
-from src.utils.terminal import limpar_terminal, pausar_terminal
+"""Tela de login e encerramento do sistema."""
+
 import psycopg
 
 from src.services.funcionarios_service import autenticar_funcionario
+from src.utils.terminal import limpar_terminal, pausar_terminal
+
 
 def auth_menu():
     """
-        Exibe o login e retorna o funcionário autenticado ou None ao encerrar o sistema.
+    Exibe o login e retorna o funcionário autenticado ou None ao encerrar o
+    sistema.
     """
     while True:
         limpar_terminal()

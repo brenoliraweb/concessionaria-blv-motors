@@ -1,10 +1,16 @@
+"""Painel do vendedor e operações de atendimento ao cliente."""
+
 from src.utils.terminal import limpar_terminal, pausar_terminal
-from src.views.clientes_views import tela_cadastrar_cliente, tela_atualizar_cliente, tela_buscar_cliente_por_cpf
+from src.views.clientes_views import (
+    tela_atualizar_cliente,
+    tela_buscar_cliente_por_cpf,
+    tela_cadastrar_cliente,
+)
 
 
 def menu_vendedor(funcionario=None):
     """
-        Exibe o painel do vendedor, com cadastro de cliente e opções de busca e venda em desenvolvimento.
+    Exibe o atendimento ao cliente e as opções de veículos e vendas pendentes.
     """
     while True:
         limpar_terminal()

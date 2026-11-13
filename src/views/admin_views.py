@@ -1,13 +1,14 @@
+"""Painel do administrador e navegação entre os cadastros."""
+
 from src.utils.terminal import limpar_terminal, pausar_terminal
 from src.views.clientes_views import menu_clientes
 from src.views.funcionarios_views import menu_funcionarios
 from src.views.marcas_views import menu_marcas
+from src.views.modelos_views import menu_modelos
 
 
 def menu_admin(funcionario=None):
-    """
-        Exibe o painel do administrador e direciona para os menus de clientes e funcionários.
-    """
+    """Exibe o painel do administrador e direciona para os menus de cadastros."""
     while True:
         limpar_terminal()
         if funcionario:
@@ -16,6 +17,7 @@ def menu_admin(funcionario=None):
         print('1 - Clientes')
         print('2 - Funcionários')
         print('3 - Marcas')
+        print('4 - Modelos')
         print('0 - Sair da conta')
 
         opcao = input('Opção: ').strip()
@@ -26,6 +28,8 @@ def menu_admin(funcionario=None):
             menu_funcionarios()
         elif opcao == '3':
             menu_marcas()
+        elif opcao == '4':
+            menu_modelos(funcionario)
         elif opcao == '0':
             return
         else:
