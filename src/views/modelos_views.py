@@ -13,11 +13,34 @@ from src.services.modelos_service import (
 )
 from src.utils.terminal import limpar_terminal, pausar_terminal
 
+def escolher_categoria(atual=None):
+    print('\n--- Categorias ---')
+    print('1 - Hatch')
+    print('2 - Sedan')
+    print('3 - SUV')
+    print('4 - Picape')
+
+    opcao = input('Categoria (Enter para manter a atual): ').strip()
+
+    if opcao == '' and atual is not None:
+        return atual
+
+    if opcao == '1':
+        return 'hatch'
+    elif opcao == '2':
+        return 'sedan'
+    elif opcao == '3':
+        return 'suv'
+    elif opcao == '4':
+        return 'picape'
+    else:
+        raise ValueError('Categoria inválida.')
+
 
 def _exibir_modelo(modelo):
     """Apresenta o modelo com os dados da marca correspondente."""
     print(f"\nID: {modelo['id_modelo']}")
-    print(f"Marca: {modelo['marca']} (ID: {modelo['id_marca']})")
+    print(f"Marca: {modelo['marca']}")
     print(f"Nome: {modelo['nome']}")
     print(f"Categoria: {modelo['categoria']}")
 
@@ -46,7 +69,7 @@ def tela_cadastrar_modelo(funcionario):
             return
         id_marca = input('ID da marca: ')
         nome = input('Nome do modelo: ')
-        categoria = input('Categoria (hatch/sedan/suv/picape): ')
+        categoria = escolher_categoria()
         cadastrar_modelo(id_marca, nome, categoria, funcionario)
         print('Modelo cadastrado com sucesso!')
     except (ValueError, PermissionError) as erro:
@@ -118,10 +141,8 @@ def tela_atualizar_modelo(funcionario):
         if opcao in ('2', '4'):
             nome = input('Nome do modelo: ').strip() or nome
         if opcao in ('3', '4'):
-            categoria = (
-                input('Categoria (hatch/sedan/suv/picape): ').strip() or categoria
-            )
-
+            categoria = escolher_categoria(categoria)
+           
         atualizar_modelo(id_modelo, id_marca, nome, categoria, funcionario)
         print('Modelo atualizado com sucesso!')
     except (ValueError, PermissionError) as erro:
