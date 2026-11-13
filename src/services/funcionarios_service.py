@@ -1,6 +1,6 @@
 import psycopg
 
-from src.utils.validators import validate_cpf, validate_phone
+from src.utils.validators import validate_cpf, validate_phone, validate_id
 from src.utils.auth.password import  hash_password, verify_password
 from src.repositories import funcionarios_repository as rep
 
@@ -46,6 +46,7 @@ def listar_funcionario_por_id(id_funcionario):
     """
         Busca o funcionário pelo ID e informa quando o cadastro não existe.
     """
+    id_funcionario = validate_id(id_funcionario)
     funcionario = rep.listar_funcionario_por_id(id_funcionario)
 
     if funcionario is None:
@@ -57,6 +58,7 @@ def atualizar_funcionario(nome, cpf, telefone, cargo, id_funcionario):
     """
         Valida e atualiza os dados e o cargo do funcionário, tratando CPF duplicado ou cadastro inexistente.
     """
+    id_funcionario = validate_id(id_funcionario)
     nome = nome.strip()
     
     if not nome or len(nome) > 250:
@@ -84,6 +86,7 @@ def atualizar_login_funcionario(login, senha, id_funcionario):
     """
         Valida e atualiza o login e a senha, tratando login duplicado ou cadastro inexistente.
     """
+    id_funcionario = validate_id(id_funcionario)
     login = login.strip()
 
     if not login or len(login) > 50:
@@ -108,7 +111,12 @@ def deletar_funcionario(id_funcionario):
     """
         Solicita a exclusão do funcionário e informa quando o cadastro não existe.
     """
-    deletado = rep.deletar_funcionario(id_funcionario)
+    id_funcionario = validate_id(id_funcionario)
+
+    try:
+        deletado = rep.deletar_funcionario(id_funcionario)
+    except psycopg.errors.ForeignKeyViolation as erro:
+        raise ValueError('Não é possível excluir: o funcionário possui registros vinculados.') from erro
 
     if not deletado:
         raise ValueError('Funcionário não encontrado ou não existe.')
