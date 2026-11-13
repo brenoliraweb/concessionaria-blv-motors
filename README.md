@@ -5,22 +5,21 @@ Trabalho da disciplina Projeto de Banco de Dados (CESMAC).
 
 ## Primeiro administrador
 
-Com as dependências instaladas e o `.env` configurado, execute na raiz:
+O projeto possui uma função manual para o cadastro inicial. Com as dependências
+instaladas e o `.env` configurado, execute na raiz:
 
 ```bash
-python -m src.criar_primeiro_admin
+python -c "from src.views.funcionarios_views import primeiro_funcionario; primeiro_funcionario()"
 ```
 
-A tabela `funcionarios` precisa existir; o script não cria tabelas. Esta execução
-grava no banco configurado, portanto use somente quando for realizar o cadastro.
-O cargo é definido como `admin`, e só é possível cadastrar se a tabela estiver
-vazia. O bloqueio da tabela, a consulta e o INSERT usam a mesma transação;
-o commit confirma o cadastro e o rollback desfaz em caso de erro.
+A tabela `funcionarios` precisa existir; a rotina não cria tabelas. O cargo é
+definido como `admin`. A função não verifica se já existem funcionários;
+seu uso é manual na configuração inicial, antes do primeiro login.
 
-A senha é lida com `input` e armazenada apenas como hash bcrypt com salt.
-Exige no mínimo 8 caracteres e no máximo 72 bytes em UTF-8, sem remover espaços
-nem truncar. O CPF é validado pelo formato de 11 dígitos, sem validar os dígitos
-verificadores. Nome, telefone e login são obrigatórios e respeitam os limites SQL.
+A senha é obrigatória, lida com `input` e armazenada como hash bcrypt com salt.
+O bcrypt utilizado aceita senhas de até 72 bytes em UTF-8. O CPF é validado pelo
+formato de 11 dígitos, sem verificar os dígitos verificadores. Nome, telefone e
+login também são obrigatórios.
 
 ## Estrutura de pastas
 
@@ -55,21 +54,43 @@ Cada assunto tem um arquivo por pasta com o mesmo prefixo:
 
 - `repositories/clientes_repository.py`
 - `services/clientes_service.py`
-- `views/clientes_view.py`
+- `views/clientes_views.py`
 
 Os menus ficam em `views/`, e o `main.py` inicia o sistema e controla a sessão:
 
 - `auth_views.py`: login; retorna o funcionário autenticado ou `None` ao encerrar.
 - `principal_views.py`: escolhe o painel pelo cargo retornado pela autenticação.
-- `admin_views.py`: painel do administrador, com clientes e funcionários.
-- `vendedor_views.py`: cadastro de cliente, busca por nome e registro de venda.
-  Apenas o cadastro está implementado; as demais opções indicam "Em desenvolvimento".
-- `clientes_views.py` e `funcionarios_views.py`: menus de cada área.
+- `admin_views.py`: painel do administrador, com clientes, funcionários, marcas e modelos.
+- `vendedor_views.py`: cadastro, atualização e busca de cliente por CPF. A consulta
+  de veículos disponíveis e o registro de vendas indicam "Em desenvolvimento".
+- `clientes_views.py`, `funcionarios_views.py`, `marcas_views.py` e
+  `modelos_views.py`: menus e telas de cada cadastro.
 
 Ao escolher **Sair da conta**, o sistema volta ao login. Um cargo desconhecido
 não abre nenhum painel. Opções sem telas continuam indicando
 "Em desenvolvimento". A separação de menus controla a navegação do terminal;
 novas formas de acesso aos serviços precisarão validar as permissões também.
+
+### Roteiro para leitura do código
+
+1. Comece em `src/main.py` para entender o ciclo de login e saída da conta.
+2. Leia `auth_views.py` e `principal_views.py` para acompanhar a autenticação e
+   o encaminhamento aos painéis de administrador e vendedor.
+3. Escolha um cadastro, como clientes, e siga sua view, seu service e seu repository.
+4. No repository, confira o SQL e a ordem dos parâmetros enviados ao banco.
+5. Consulte `utils/validators.py` para as validações reutilizadas pelos serviços.
+
+As funções possuem descrições curtas de sua responsabilidade. Os repositórios
+mantêm o SQL separado em uma variável `sql` e usam os nomes `conexao` e `cursor`.
+O contexto `with connection_database()` confirma a transação quando a operação
+termina com sucesso e desfaz as alterações quando ocorre uma exceção.
+
+### Situação da implementação
+
+Clientes, funcionários, marcas e modelos possuem operações de cadastro, consulta,
+atualização e exclusão. Veículos e vendas têm tabelas no SQL, mas seus módulos de
+aplicação ainda não foram implementados. As regras do trabalho estão no documento
+da pasta `docs/`; a presença de uma tabela no SQL não significa que sua tela já exista.
 
 ---
 
