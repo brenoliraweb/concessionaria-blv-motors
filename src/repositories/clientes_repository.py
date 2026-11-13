@@ -44,6 +44,20 @@ def listar_clientes_por_id(id_cliente):
               (id_cliente,)
           )
           return cursor.fetchone()
+        
+def buscar_cliente_por_cpf(cpf):
+    with connection_database() as con:
+        with con.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT id_cliente, nome, cpf, telefone, email
+                FROM clientes
+                WHERE cpf = %s
+                """,
+                (cpf,)
+            )
+
+            return cursor.fetchone()
 
 def atualizar_cliente(id_cliente, nome, cpf, telefone, email):
     with connection_database() as con:

@@ -1,5 +1,5 @@
 from src.utils.terminal import limpar_terminal, pausar_terminal
-from src.services.clientes_service import (cadastrar_cliente, listar_clientes, listar_cliente_por_id, atualizar_cliente, excluir_cliente) 
+from src.services.clientes_service import (cadastrar_cliente, listar_clientes, listar_cliente_por_id, atualizar_cliente, excluir_cliente, buscar_cliente_por_cpf) 
 import psycopg
 
 
@@ -53,6 +53,26 @@ def tela_buscar_cliente_por_id():
     try:
         id_cliente = input('ID do cliente: ')
         cliente = listar_cliente_por_id(id_cliente)
+
+        print(f"\nID: {cliente['id_cliente']}")
+        print(f"Nome: {cliente['nome']}")
+        print(f"CPF: {cliente['cpf']}")
+        print(f"Telefone: {cliente['telefone']}")
+        print(f"E-mail: {cliente['email'] or 'Não informado'}")
+
+    except ValueError as erro:
+        print(erro)
+
+    except psycopg.Error:
+        print('Não foi possível buscar o cliente.')
+        
+def tela_buscar_cliente_por_cpf():
+    limpar_terminal()
+    print('\n--- Buscar cliente por CPF ---')
+
+    try:
+        cpf = input('CPF do cliente: ')
+        cliente = buscar_cliente_por_cpf(cpf)
 
         print(f"\nID: {cliente['id_cliente']}")
         print(f"Nome: {cliente['nome']}")
@@ -164,8 +184,9 @@ def menu_clientes(funcionario):
         print('1 - Cadastrar cliente')
         print('2 - Listar clientes')
         print('3 - Buscar cliente pelo id')
-        print('4 - Atualizar cliente')
-        print('5 - Excluir cliente')
+        print('4 - Buscar cliente pelo cpf')
+        print('5 - Atualizar cliente')
+        print('6 - Excluir cliente')
         print('0 - Voltar')
 
         opcao = input('Opção: ').strip()
@@ -177,8 +198,10 @@ def menu_clientes(funcionario):
         elif opcao == '3':
             tela_buscar_cliente_por_id()
         elif opcao == '4':
-            tela_atualizar_cliente()
+            tela_buscar_cliente_por_cpf()
         elif opcao == '5':
+            tela_atualizar_cliente()
+        elif opcao == '6':
             tela_excluir_cliente(funcionario)
         elif opcao == '0':
             return

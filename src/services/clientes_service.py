@@ -5,7 +5,8 @@ from src.repositories.clientes_repository import (
     listar_clientes as listar_clientes_repository,
     listar_clientes_por_id as listar_clientes_por_id_repository,
     atualizar_cliente as atualizar_cliente_repository,
-    excluir_cliente as excluir_cliente_repository
+    excluir_cliente as excluir_cliente_repository,
+    buscar_cliente_por_cpf as buscar_cliente_por_cpf_repository
 )
 
 from src.utils.validators import (
@@ -43,6 +44,16 @@ def listar_clientes():
 def listar_cliente_por_id(id_cliente):
     id_cliente = validate_id(id_cliente)
     cliente = listar_clientes_por_id_repository(id_cliente)
+
+    if cliente is None:
+        raise ValueError('Cliente não encontrado.')
+
+    return cliente
+  
+def buscar_cliente_por_cpf(cpf):
+    cpf = validate_cpf(cpf)
+
+    cliente = buscar_cliente_por_cpf_repository(cpf)
 
     if cliente is None:
         raise ValueError('Cliente não encontrado.')
