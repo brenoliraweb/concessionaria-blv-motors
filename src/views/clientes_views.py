@@ -21,6 +21,8 @@ def tela_cadastrar_cliente():
 
     except ValueError as erro:
         print(erro)
+    except psycopg.Error:
+        print('Não foi possível cadastrar o cliente.')    
 
 def tela_listar_clientes():
     """
