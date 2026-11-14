@@ -1,18 +1,19 @@
-"""Painel do administrador e navegação entre os cadastros."""
-
 from src.utils.terminal import limpar_terminal, pausar_terminal
 from src.views.clientes_views import menu_clientes
 from src.views.funcionarios_views import menu_funcionarios
 from src.views.marcas_views import menu_marcas
 from src.views.modelos_views import menu_modelos
 
-
 def menu_admin(funcionario=None):
-    """Exibe o painel do administrador e direciona para os menus de cadastros."""
+    """
+        Exibe o painel do administrador e direciona para os menus de cadastros.
+    """
+
     while True:
         limpar_terminal()
         if funcionario:
             print(f"Bem-vindo(a), {funcionario['nome']}!")
+        
         print('\n--- BLV Motors | Administrador ---')
         print('1 - Clientes')
         print('2 - Funcionários')
@@ -24,14 +25,19 @@ def menu_admin(funcionario=None):
 
         if opcao == '1':
             menu_clientes(funcionario)
+
         elif opcao == '2':
             menu_funcionarios()
+
         elif opcao == '3':
             menu_marcas()
+
         elif opcao == '4':
             menu_modelos(funcionario)
+
         elif opcao == '0':
             return
+        
         else:
             print('Opção inválida.')
             pausar_terminal()

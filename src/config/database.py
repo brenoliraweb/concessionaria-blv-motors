@@ -1,5 +1,3 @@
-"""Conexão PostgreSQL configurada pelas variáveis do arquivo .env."""
-
 import os
 
 import psycopg
@@ -8,9 +6,11 @@ from psycopg.rows import dict_row
 
 load_dotenv()
 
-
 def connection_database():
-    """Cria e retorna uma conexão com o banco de dados"""
+    """
+        Cria e retorna uma conexão com o banco de dados
+    """
+    
     return psycopg.connect(
         host=os.getenv('DB_HOST'),
         port=os.getenv('DB_PORT'),
@@ -22,9 +22,11 @@ def connection_database():
         row_factory=dict_row,
     )
 
-
 def test_connection():
-    """Testa a conexão com o banco de dados executando uma query simples."""
+    """
+        Testa a conexão com o banco de dados executando uma query simples.
+    """
+
     try:
         with connection_database() as conn:
             with conn.cursor() as cur:

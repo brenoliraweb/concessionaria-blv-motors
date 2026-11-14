@@ -1,5 +1,3 @@
-"""Telas de funcionários, credenciais e alteração de cargo."""
-
 import psycopg
 
 from src.utils.terminal import limpar_terminal, pausar_terminal
@@ -12,9 +10,11 @@ from src.services.funcionarios_service import (
     listar_funcionarios,
 )
 
-
 def tela_cadastrar_funcionario():
-    """Solicita os dados e apresenta o resultado do cadastro do funcionário."""
+    """
+        Solicita os dados e apresenta o resultado do cadastro do funcionário.
+    """
+
     limpar_terminal()
     print('\n--- Cadastrar funcionário ---')
 
@@ -31,12 +31,15 @@ def tela_cadastrar_funcionario():
 
     except ValueError as erro:
         print(erro)
+
     except psycopg.Error:
         print('Não foi possível cadastrar o funcionário.')
 
-
 def tela_listar_funcionarios():
-    """Consulta e exibe os funcionários cadastrados no sistema."""
+    """
+        Consulta e exibe os funcionários cadastrados no sistema.
+    """
+
     limpar_terminal()
     print('\n--- Funcionários cadastrados ---')
 
@@ -57,9 +60,11 @@ def tela_listar_funcionarios():
     except psycopg.Error:
         print('Não foi possível listar os funcionários.')
 
-
 def tela_buscar_funcionario_por_id():
-    """Solicita o ID e mostra os dados do funcionário, sem expor a senha."""
+    """
+        Solicita o ID e mostra os dados do funcionário, sem expor a senha.
+    """
+
     limpar_terminal()
     print('\n--- Buscar funcionário por ID ---')
 
@@ -76,12 +81,15 @@ def tela_buscar_funcionario_por_id():
 
     except ValueError as erro:
         print(erro)
+
     except psycopg.Error:
         print('Não foi possível buscar o funcionário.')
 
-
 def tela_atualizar_funcionario():
-    """Permite atualizar um campo ou todos os dados pessoais e o cargo."""
+    """
+        Permite atualizar um campo ou todos os dados pessoais e o cargo.
+    """
+
     limpar_terminal()
     print('\n--- Atualizar funcionário ---')
 
@@ -116,10 +124,13 @@ def tela_atualizar_funcionario():
 
         if opcao in ('1', '5'):
             nome = input('Nome: ').strip() or nome
+
         if opcao in ('2', '5'):
             cpf = input('CPF: ').strip() or cpf
+
         if opcao in ('3', '5'):
             telefone = input('Telefone: ').strip() or telefone
+
         if opcao in ('4', '5'):
             cargo = input('Cargo (admin/vendedor): ').strip() or cargo
 
@@ -128,12 +139,15 @@ def tela_atualizar_funcionario():
 
     except ValueError as erro:
         print(erro)
+
     except psycopg.Error:
         print('Não foi possível atualizar o funcionário.')
 
-
 def tela_atualizar_login_funcionario():
-    """Solicita novas credenciais, permitindo manter o login atual."""
+    """
+        Solicita novas credenciais, permitindo manter o login atual.
+    """
+
     limpar_terminal()
     print('\n--- Alterar login e senha ---')
 
@@ -152,12 +166,15 @@ def tela_atualizar_login_funcionario():
 
     except ValueError as erro:
         print(erro)
+
     except psycopg.Error:
         print('Não foi possível atualizar o login e a senha do funcionário.')
 
-
 def tela_excluir_funcionario():
-    """Apresenta o funcionário e confirma a exclusão antes de executá-la."""
+    """
+        Apresenta o funcionário e confirma a exclusão antes de executá-la.
+    """
+
     limpar_terminal()
     print('\n--- Excluir funcionário ---')
 
@@ -167,9 +184,7 @@ def tela_excluir_funcionario():
 
         print(f"\nNome: {funcionario['nome']}")
         print(f"CPF: {funcionario['cpf']}")
-        confirmacao = input(
-            '\nDeseja excluir este funcionário? (s/n): '
-        ).strip().lower()
+        confirmacao = input('\nDeseja excluir este funcionário? (s/n): ').strip().lower()
 
         if confirmacao != 's':
             print('Exclusão cancelada.')
@@ -180,12 +195,15 @@ def tela_excluir_funcionario():
 
     except ValueError as erro:
         print(erro)
+
     except psycopg.Error:
         print('Não foi possível excluir o funcionário.')
 
-
 def tela_elevar_cargo_funcionario():
-    """Confirma a promoção de um vendedor para administrador."""
+    """
+        Confirma a promoção de um vendedor para administrador.
+    """
+
     limpar_terminal()
     print('\n--- Elevar cargo para administrador ---')
 
@@ -200,28 +218,26 @@ def tela_elevar_cargo_funcionario():
             print('O funcionário já é administrador.')
             return
 
-        confirmacao = input(
-            '\nDeseja promover este funcionário a administrador? (s/n): '
-        ).strip().lower()
+        confirmacao = input('\nDeseja promover este funcionário a administrador? (s/n): ').strip().lower()
 
         if confirmacao != 's':
             print('Promoção cancelada.')
             return
 
-        atualizar_funcionario(
-            funcionario['nome'], funcionario['cpf'], funcionario['telefone'],
-            'admin', id_funcionario,
-        )
+        atualizar_funcionario(funcionario['nome'], funcionario['cpf'], funcionario['telefone'], 'admin', id_funcionario,)
         print('Funcionário promovido a administrador com sucesso!')
 
     except ValueError as erro:
         print(erro)
+
     except psycopg.Error:
         print('Não foi possível promover o funcionário a administrador.')
 
-
 def menu_funcionarios():
-    """Exibe o menu de funcionários e direciona para as telas disponíveis."""
+    """
+        Exibe o menu de funcionários e direciona para as telas disponíveis.
+    """
+
     while True:
         limpar_terminal()
         print('\n--- Funcionários ---')
@@ -238,31 +254,39 @@ def menu_funcionarios():
 
         if opcao == '1':
             tela_cadastrar_funcionario()
+
         elif opcao == '2':
             tela_listar_funcionarios()
+
         elif opcao == '3':
             tela_buscar_funcionario_por_id()
+
         elif opcao == '4':
             tela_atualizar_funcionario()
+
         elif opcao == '5':
             tela_atualizar_login_funcionario()
+
         elif opcao == '6':
             tela_excluir_funcionario()
+
         elif opcao == '7':
             tela_elevar_cargo_funcionario()
+
         elif opcao == '0':
             return
+        
         else:
             print('Opção inválida.')
 
         pausar_terminal()
 
-
 def primeiro_funcionario():
     """
-    Solicita os dados e cadastra um administrador quando chamada manualmente na
-    configuração inicial.
+        Solicita os dados e cadastra um administrador quando chamada manualmente na
+        configuração inicial.
     """
+
     limpar_terminal()
     print('\n--- Cadastro inicial de administrador ---')
     nome = input('Nome: ')
@@ -274,8 +298,10 @@ def primeiro_funcionario():
     try:
         cadastrar_funcionario(nome, cpf, telefone, 'admin', login, senha)
         print('Funcionário cadastrado com sucesso!')
+
     except ValueError as erro:
         print(erro)
+
     except psycopg.Error:
         print('Não foi possível cadastrar o administrador inicial.')
 

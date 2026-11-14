@@ -1,6 +1,3 @@
-"""Inicialização do sistema e ciclo de autenticação dos funcionários."""
-
-# Inclui a raiz do projeto ao executar este arquivo diretamente.
 if __package__ in (None, ''):
     import sys
     from pathlib import Path
@@ -10,15 +7,18 @@ if __package__ in (None, ''):
 from src.views.auth_views import auth_menu
 from src.views.principal_views import menu_principal
 
-
 def main():
-    """Inicia o sistema e controla o ciclo de login e acesso aos painéis."""
+    """
+        Inicia o sistema e controla o ciclo de login e acesso aos painéis.
+    """
+
     while True:
         funcionario = auth_menu()
+
         if funcionario is None:
             return
+        
         menu_principal(funcionario)
-
 
 if __name__ == '__main__':
     main()

@@ -1,5 +1,3 @@
-"""Telas de cadastro, consulta, atualização e exclusão de marcas."""
-
 import psycopg
 
 from src.services.marcas_service import (
@@ -12,9 +10,11 @@ from src.services.marcas_service import (
 
 from src.utils.terminal import limpar_terminal, pausar_terminal
 
-
 def tela_cadastrar_marca():
-    """Solicita o nome da marca e apresenta o resultado do cadastro."""
+    """
+        Solicita o nome da marca e apresenta o resultado do cadastro.
+    """
+
     limpar_terminal()
     print('\n--- Cadastrar marca ---')
 
@@ -30,9 +30,11 @@ def tela_cadastrar_marca():
     except psycopg.Error:
         print('Não foi possível cadastrar a marca.')
 
-
 def tela_listar_marcas():
-    """Mostra os IDs e nomes das marcas cadastradas."""
+    """
+        Mostra os IDs e nomes das marcas cadastradas.
+    """
+
     limpar_terminal()
     print('\n--- Marcas cadastradas ---')
 
@@ -49,9 +51,11 @@ def tela_listar_marcas():
     except psycopg.Error:
         print('Não foi possível listar as marcas.')
 
-
 def tela_buscar_marca():
-    """Solicita o ID e apresenta a marca encontrada."""
+    """
+        Solicita o ID e apresenta a marca encontrada.
+    """
+
     limpar_terminal()
     print('\n--- Buscar marca ---')
 
@@ -68,9 +72,11 @@ def tela_buscar_marca():
     except psycopg.Error:
         print('Não foi possível buscar a marca.')
 
-
 def tela_atualizar_marca():
-    """Permite alterar o nome de uma marca existente."""
+    """
+        Permite alterar o nome de uma marca existente.
+    """
+
     limpar_terminal()
     print('\n--- Atualizar marca ---')
 
@@ -95,9 +101,11 @@ def tela_atualizar_marca():
     except psycopg.Error:
         print('Não foi possível atualizar a marca.')
 
-
 def tela_excluir_marca():
-    """Confirma a exclusão da marca e apresenta possíveis impedimentos."""
+    """
+        Confirma a exclusão da marca e apresenta possíveis impedimentos.
+    """
+
     limpar_terminal()
     print('\n--- Excluir marca ---')
 
@@ -123,9 +131,11 @@ def tela_excluir_marca():
     except psycopg.Error:
         print('Não foi possível excluir a marca.')
 
-
 def menu_marcas():
-    """Exibe as opções de marcas e encaminha para a tela escolhida."""
+    """
+        Exibe as opções de marcas e encaminha para a tela escolhida.
+    """
+
     while True:
         limpar_terminal()
         print('\n--- Marcas ---')

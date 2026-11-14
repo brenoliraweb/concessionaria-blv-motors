@@ -1,5 +1,3 @@
-"""Telas de cadastro, consulta, atualização e exclusão de clientes."""
-
 import psycopg
 
 from src.services.clientes_service import (
@@ -10,13 +8,17 @@ from src.services.clientes_service import (
     listar_cliente_por_id,
     listar_clientes,
 )
+
 from src.utils.terminal import limpar_terminal, pausar_terminal
 
-
 def tela_cadastrar_cliente():
-    """Solicita os dados do cliente e apresenta o resultado do cadastro."""
+    """
+        Solicita os dados do cliente e apresenta o resultado do cadastro.
+    """
+
     limpar_terminal()
     print('\n--- Cadastrar cliente ---')
+
     try:
         nome = input('Digite o nome: ')
         cpf = input('Digite o CPF: ')
@@ -29,12 +31,15 @@ def tela_cadastrar_cliente():
 
     except ValueError as erro:
         print(erro)
+
     except psycopg.Error:
         print('Não foi possível cadastrar o cliente.')
 
-
 def tela_listar_clientes():
-    """Consulta e exibe os clientes cadastrados no sistema."""
+    """
+        Consulta e exibe os clientes cadastrados no sistema.
+    """
+
     limpar_terminal()
     print('\n--- Clientes cadastrados ---')
 
@@ -55,9 +60,11 @@ def tela_listar_clientes():
     except psycopg.Error:
         print('Não foi possível listar os clientes.')
 
-
 def tela_buscar_cliente_por_id():
-    """Solicita um ID e apresenta os dados do cliente encontrado."""
+    """
+        Solicita um ID e apresenta os dados do cliente encontrado.
+    """
+
     limpar_terminal()
     print('\n--- Buscar cliente por ID ---')
 
@@ -77,9 +84,11 @@ def tela_buscar_cliente_por_id():
     except psycopg.Error:
         print('Não foi possível buscar o cliente.')
 
-
 def tela_buscar_cliente_por_cpf():
-    """Solicita um CPF e apresenta os dados do cliente encontrado."""
+    """
+        Solicita um CPF e apresenta os dados do cliente encontrado.
+    """
+
     limpar_terminal()
     print('\n--- Buscar cliente por CPF ---')
 
@@ -99,9 +108,11 @@ def tela_buscar_cliente_por_cpf():
     except psycopg.Error:
         print('Não foi possível buscar o cliente.')
 
-
 def tela_atualizar_cliente():
-    """Permite editar campos escolhidos, mantendo os demais dados atuais."""
+    """
+        Permite editar campos escolhidos, mantendo os demais dados atuais.
+    """
+
     limpar_terminal()
     print('\n--- Atualizar cliente ---')
 
@@ -148,6 +159,7 @@ def tela_atualizar_cliente():
 
             if novo_email == '-':
                 email = None
+
             elif novo_email:
                 email = novo_email
 
@@ -161,9 +173,11 @@ def tela_atualizar_cliente():
     except psycopg.Error:
         print('Não foi possível atualizar o cliente.')
 
-
 def tela_excluir_cliente(funcionario):
-    """Apresenta o cliente e solicita confirmação antes da exclusão."""
+    """
+        Apresenta o cliente e solicita confirmação antes da exclusão.
+    """
+
     limpar_terminal()
     print('\n--- Excluir cliente ---')
 
@@ -189,9 +203,11 @@ def tela_excluir_cliente(funcionario):
     except psycopg.Error:
         print('Não foi possível excluir o cliente.')
 
-
 def menu_clientes(funcionario):
-    """Exibe o menu de clientes e direciona para as telas disponíveis."""
+    """
+        Exibe o menu de clientes e direciona para as telas disponíveis.
+    """
+
     while True:
         limpar_terminal()
         print('\n--- Clientes ---')
