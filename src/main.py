@@ -1,9 +1,3 @@
-if __package__ in (None, ''):
-    import sys
-    from pathlib import Path
-
-    sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-
 from src.views.auth_views import auth_menu
 from src.views.principal_views import menu_principal
 
