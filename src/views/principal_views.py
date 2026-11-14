@@ -1,6 +1,6 @@
 from src.utils.terminal import pausar_terminal
-from src.views.admin_views import menu_admin
-from src.views.vendedor_views import menu_vendedor
+from src.views.funcionarios.admin_views import menu_admin
+from src.views.funcionarios.vendedor_views import menu_vendedor
 
 def menu_principal(funcionario):
     """

@@ -1,6 +1,6 @@
 import psycopg
 
-from src.services.marcas_service import (
+from src.services.marcas.marcas_service import (
     atualizar_marca,
     buscar_marca,
     cadastrar_marca,

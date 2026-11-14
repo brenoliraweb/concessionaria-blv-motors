@@ -1,7 +1,7 @@
 import psycopg
 
 from src.utils.terminal import limpar_terminal, pausar_terminal
-from src.services.funcionarios_service import (
+from src.services.funcionarios.funcionarios_service import (
     atualizar_funcionario,
     atualizar_login_funcionario,
     cadastrar_funcionario,

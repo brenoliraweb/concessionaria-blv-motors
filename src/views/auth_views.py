@@ -1,6 +1,6 @@
 import psycopg
 
-from src.services.funcionarios_service import autenticar_funcionario
+from src.services.funcionarios.funcionarios_service import autenticar_funcionario
 from src.utils.terminal import limpar_terminal, pausar_terminal
 
 def auth_menu():

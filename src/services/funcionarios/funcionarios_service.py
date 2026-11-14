@@ -1,6 +1,6 @@
 import psycopg
 
-from src.repositories import funcionarios_repository as rep
+from src.repositories.funcionarios import funcionarios_repository as rep
 from src.utils.auth.password import hash_password, verify_password
 from src.utils.validators import validate_cpf, validate_id, validate_phone
 

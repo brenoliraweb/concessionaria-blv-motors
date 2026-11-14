@@ -1,5 +1,5 @@
 from src.utils.terminal import limpar_terminal, pausar_terminal
-from src.views.clientes_views import (
+from src.views.clientes.clientes_views import (
     tela_atualizar_cliente,
     tela_buscar_cliente_por_cpf,
     tela_cadastrar_cliente,

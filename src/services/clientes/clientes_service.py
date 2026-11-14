@@ -1,6 +1,6 @@
 import psycopg
 
-from src.repositories.clientes_repository import (
+from src.repositories.clientes.clientes_repository import (
     atualizar_cliente as atualizar_cliente_repository,
     buscar_cliente_por_cpf as buscar_cliente_por_cpf_repository,
     excluir_cliente as excluir_cliente_repository,

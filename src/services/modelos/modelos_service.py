@@ -1,6 +1,6 @@
 import psycopg
 
-from src.repositories import modelos_repository as rep
+from src.repositories.modelos import modelos_repository as rep
 from src.utils.validators import validate_id, validate_text
 
 def exigir_administrador(funcionario):

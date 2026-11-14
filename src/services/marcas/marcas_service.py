@@ -1,6 +1,6 @@
 import psycopg
 
-from src.repositories.marcas_repository import (
+from src.repositories.marcas.marcas_repository import (
     atualizar_marca as atualizar_marca_repository,
     buscar_marca_por_id,
     excluir_marca as excluir_marca_repository,

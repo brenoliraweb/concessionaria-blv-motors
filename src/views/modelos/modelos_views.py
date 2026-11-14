@@ -1,7 +1,7 @@
 import psycopg
 
-from src.services.marcas_service import listar_marcas
-from src.services.modelos_service import (
+from src.services.marcas.marcas_service import listar_marcas
+from src.services.modelos.modelos_service import (
     atualizar_modelo,
     buscar_modelo,
     cadastrar_modelo,

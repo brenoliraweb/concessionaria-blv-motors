@@ -1,6 +1,6 @@
 import psycopg
 
-from src.services.clientes_service import (
+from src.services.clientes.clientes_service import (
     atualizar_cliente,
     buscar_cliente_por_cpf,
     cadastrar_cliente,

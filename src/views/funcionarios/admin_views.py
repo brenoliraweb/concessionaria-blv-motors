@@ -1,8 +1,8 @@
 from src.utils.terminal import limpar_terminal, pausar_terminal
-from src.views.clientes_views import menu_clientes
-from src.views.funcionarios_views import menu_funcionarios
-from src.views.marcas_views import menu_marcas
-from src.views.modelos_views import menu_modelos
+from src.views.clientes.clientes_views import menu_clientes
+from src.views.funcionarios.funcionarios_views import menu_funcionarios
+from src.views.marcas.marcas_views import menu_marcas
+from src.views.modelos.modelos_views import menu_modelos
 
 def menu_admin(funcionario=None):
     """
