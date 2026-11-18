@@ -1,4 +1,6 @@
 import re
+from decimal import Decimal, InvalidOperation
+
 
 def validate_cpf(cpf):
     """
@@ -131,5 +133,22 @@ def validate_id(value):
 
     if value <= 0:
         raise ValueError('Informe um ID válido.')
+
+    return value
+
+def validate_money(value):
+    try:
+        value = Decimal(value.strip().replace(',', '.'))
+    except (InvalidOperation, ValueError):
+        raise ValueError('Informe um valor válido.')
+
+    if not value.is_finite() or value <= 0:
+        raise ValueError('O valor deve ser maior que zero.')
+
+    if value > Decimal('99999999.99'):
+        raise ValueError('O valor informado está muito alto.')
+
+    if value != value.quantize(Decimal('0.01')):
+        raise ValueError('Use no máximo duas casas decimais.')
 
     return value
