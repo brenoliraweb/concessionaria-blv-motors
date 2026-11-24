@@ -3,14 +3,6 @@ import psycopg
 from src.repositories.modelos import modelos_repository as rep
 from src.utils.validators import validate_id, validate_text
 
-def exigir_administrador(funcionario):
-    """
-        O gerenciamento de modelos é exclusivo do administrador (RN12).
-    """
-
-    if not funcionario or funcionario.get('cargo') != 'admin':
-        raise PermissionError('Somente administradores podem gerenciar modelos.')
-
 def _validar_dados(id_marca, nome, categoria):
     """
         Valida a marca, o nome e uma das quatro categorias permitidas.
@@ -25,12 +17,11 @@ def _validar_dados(id_marca, nome, categoria):
 
     return id_marca, nome, categoria
 
-def cadastrar_modelo(id_marca, nome, categoria, funcionario=None):
+def cadastrar_modelo(id_marca, nome, categoria):
     """
-        Exige administrador e trata marca inexistente ou modelo repetido.
+        Trata marca inexistente ou modelo repetido.
     """
 
-    exigir_administrador(funcionario)
     dados = _validar_dados(id_marca, nome, categoria)
 
     try:
@@ -42,20 +33,18 @@ def cadastrar_modelo(id_marca, nome, categoria, funcionario=None):
     except psycopg.errors.ForeignKeyViolation:
         raise ValueError('Marca não encontrada.') from None
 
-def listar_modelos(funcionario=None):
+def listar_modelos():
     """
         Retorna os modelos cadastrados para consulta administrativa.
     """
 
-    exigir_administrador(funcionario)
     return rep.listar_modelos()
 
-def buscar_modelo(id_modelo, funcionario=None):
+def buscar_modelo(id_modelo):
     """
         Valida o ID e informa quando o modelo não existe.
     """
 
-    exigir_administrador(funcionario)
     modelo = rep.buscar_modelo(validate_id(id_modelo))
 
     if not modelo:
@@ -63,12 +52,11 @@ def buscar_modelo(id_modelo, funcionario=None):
     
     return modelo
 
-def atualizar_modelo(id_modelo, id_marca, nome, categoria, funcionario=None):
+def atualizar_modelo(id_modelo, id_marca, nome, categoria):
     """
         Valida os novos dados e trata conflitos de marca e nome.
     """
 
-    exigir_administrador(funcionario)
     id_modelo = validate_id(id_modelo)
     dados = _validar_dados(id_marca, nome, categoria)
 
@@ -84,12 +72,11 @@ def atualizar_modelo(id_modelo, id_marca, nome, categoria, funcionario=None):
     if not atualizado:
         raise ValueError('Modelo não encontrado.')
 
-def excluir_modelo(id_modelo, funcionario=None):
+def excluir_modelo(id_modelo):
     """
-        Exige administrador e impede excluir modelo com veículos vinculados.
+        Impede excluir modelo com veículos vinculados.
     """
 
-    exigir_administrador(funcionario)
 
     try:
         excluido = rep.excluir_modelo(validate_id(id_modelo))

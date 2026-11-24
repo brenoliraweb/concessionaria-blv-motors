@@ -11,12 +11,12 @@ from src.services.veiculos.veiculos_service import (
 from src.utils.terminal import limpar_terminal, pausar_terminal
 
 
-def tela_cadastrar_veiculo(funcionario):
+def tela_cadastrar_veiculo():
     limpar_terminal()
     print('\n--- Cadastrar veículo ---')
 
     try:
-        modelos = listar_modelos(funcionario)
+        modelos = listar_modelos()
 
         if not modelos:
             print('Cadastre um modelo antes de cadastrar veículos.')
@@ -43,24 +43,23 @@ def tela_cadastrar_veiculo(funcionario):
             placa,
             ano_fabricacao,
             cor,
-            preco_anunciado,
-            funcionario
+            preco_anunciado
         )
 
         print('Veículo cadastrado com sucesso!')
 
-    except (ValueError, PermissionError) as erro:
+    except ValueError as erro:
         print(erro)
 
     except psycopg.Error:
         print('Não foi possível cadastrar o veículo.')
 
-def tela_listar_veiculos(funcionario):
+def tela_listar_veiculos():
     limpar_terminal()
     print('\n--- Veículos cadastrados ---')
 
     try:
-        veiculos = listar_veiculos(funcionario)
+        veiculos = listar_veiculos()
 
         if not veiculos:
             print('Nenhum veículo cadastrado.')
@@ -76,20 +75,17 @@ def tela_listar_veiculos(funcionario):
             print(f"Cor: {veiculo['cor']}")
             print(f"Preço anunciado: R$ {veiculo['preco_anunciado']:.2f}")
 
-    except PermissionError as erro:
-        print(erro)
-
     except psycopg.Error:
         print('Não foi possível listar os veículos.')
 
-def tela_atualizar_veiculo(funcionario):
+def tela_atualizar_veiculo():
     """Permite alterar campos escolhidos ou todos os dados do veículo."""
     limpar_terminal()
     print('\n--- Atualizar veículo ---')
 
     try:
         id_veiculo = input('ID do veículo: ')
-        veiculo = buscar_veiculo(id_veiculo, funcionario)
+        veiculo = buscar_veiculo(id_veiculo)
 
         print(f"\nID: {veiculo['id_veiculo']}")
         print(f"Marca: {veiculo['marca']}")
@@ -131,7 +127,7 @@ def tela_atualizar_veiculo(funcionario):
         if opcao in ('1', '7'):
             print('\n--- Modelos cadastrados ---')
 
-            for modelo in listar_modelos(funcionario):
+            for modelo in listar_modelos():
                 print(
                     f"{modelo['id_modelo']} - "
                     f"{modelo['marca']} {modelo['nome']}"
@@ -171,23 +167,22 @@ def tela_atualizar_veiculo(funcionario):
             ano_fabricacao,
             cor,
             preco_anunciado,
-            funcionario,
         )
         print('Veículo atualizado com sucesso!')
 
-    except (ValueError, PermissionError) as erro:
+    except ValueError as erro:
         print(erro)
 
     except psycopg.Error:
         print('Não foi possível atualizar o veículo.')
 
-def tela_buscar_veiculo(funcionario):
+def tela_buscar_veiculo():
     limpar_terminal()
     print('\n--- Buscar veículo por ID ---')
 
     try:
         id_veiculo = input('ID do veículo: ').strip()
-        veiculo = buscar_veiculo(id_veiculo, funcionario)
+        veiculo = buscar_veiculo(id_veiculo)
 
         print(f"\nID: {veiculo['id_veiculo']}")
         print(f"Marca: {veiculo['marca']}")
@@ -198,19 +193,19 @@ def tela_buscar_veiculo(funcionario):
         print(f"Cor: {veiculo['cor']}")
         print(f"Preço anunciado: R$ {veiculo['preco_anunciado']:.2f}")
 
-    except (ValueError, PermissionError) as erro:
+    except ValueError as erro:
         print(erro)
 
     except psycopg.Error:
         print('Não foi possível buscar o veículo.')
 
-def tela_excluir_veiculo(funcionario):
+def tela_excluir_veiculo():
     limpar_terminal()
     print('\n--- Excluir veículo ---')
 
     try:
         id_veiculo = input('ID do veículo: ').strip()
-        veiculo = buscar_veiculo(id_veiculo, funcionario)
+        veiculo = buscar_veiculo(id_veiculo)
 
         print(f"\nVeículo: {veiculo['marca']} {veiculo['modelo']}")
         print(f"Chassi: {veiculo['chassi']}")
@@ -221,16 +216,16 @@ def tela_excluir_veiculo(funcionario):
             print('Exclusão cancelada.')
             return
 
-        excluir_veiculo(id_veiculo, funcionario)
+        excluir_veiculo(id_veiculo)
         print('Veículo excluído com sucesso!')
 
-    except (ValueError, PermissionError) as erro:
+    except ValueError as erro:
         print(erro)
 
     except psycopg.Error:
         print('Não foi possível excluir o veículo.')
 
-def menu_veiculos(funcionario):
+def menu_veiculos():
     while True:
         limpar_terminal()
         print('\n--- Veículos ---')
@@ -244,19 +239,19 @@ def menu_veiculos(funcionario):
         opcao = input('Opção: ').strip()
 
         if opcao == '1':
-            tela_cadastrar_veiculo(funcionario)
+            tela_cadastrar_veiculo()
 
         elif opcao == '2':
-            tela_listar_veiculos(funcionario)
+            tela_listar_veiculos()
 
         elif opcao == '3':
-            tela_buscar_veiculo(funcionario)
+            tela_buscar_veiculo()
 
         elif opcao == '4':
-            tela_atualizar_veiculo(funcionario)
+            tela_atualizar_veiculo()
 
         elif opcao == '5':
-            tela_excluir_veiculo(funcionario)
+            tela_excluir_veiculo()
 
         elif opcao == '0':
             return

@@ -26,7 +26,7 @@ def menu_admin(funcionario=None):
         opcao = input('Opção: ').strip()
 
         if opcao == '1':
-            menu_clientes(funcionario)
+            menu_clientes()
 
         elif opcao == '2':
             menu_funcionarios()
@@ -35,9 +35,9 @@ def menu_admin(funcionario=None):
             menu_marcas()
 
         elif opcao == '4':
-            menu_modelos(funcionario)
+            menu_modelos()
         elif opcao == '5':
-            menu_veiculos(funcionario)
+            menu_veiculos()
 
         elif opcao == '0':
             return

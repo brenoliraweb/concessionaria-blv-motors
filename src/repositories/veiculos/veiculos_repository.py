@@ -40,7 +40,9 @@ def buscar_veiculo_por_id(id_veiculo):
     """
 
     sql = """
-        SELECT v.*, m.nome AS modelo, ma.nome AS marca
+        SELECT v.id_veiculo, v.id_modelo, v.chassi, v.placa,
+               v.ano_fabricacao, v.cor, v.preco_anunciado,
+               m.nome AS modelo, ma.nome AS marca
         FROM veiculos v
         JOIN modelos m ON m.id_modelo = v.id_modelo
         JOIN marcas ma ON ma.id_marca = m.id_marca

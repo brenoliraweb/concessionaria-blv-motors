@@ -6,7 +6,6 @@ from src.services.modelos.modelos_service import (
     buscar_modelo,
     cadastrar_modelo,
     excluir_modelo,
-    exigir_administrador,
     listar_modelos,
 )
 
@@ -67,7 +66,7 @@ def _exibir_marcas():
 
     return True
 
-def tela_cadastrar_modelo(funcionario):
+def tela_cadastrar_modelo():
     """
         Solicita marca, nome e categoria para cadastrar um modelo.
     """
@@ -76,8 +75,6 @@ def tela_cadastrar_modelo(funcionario):
     print('\n--- Cadastrar modelo ---')
 
     try:
-        exigir_administrador(funcionario)
-
         if not _exibir_marcas():
             return
         
@@ -85,16 +82,16 @@ def tela_cadastrar_modelo(funcionario):
         nome = input('Nome do modelo: ')
         categoria = escolher_categoria()
 
-        cadastrar_modelo(id_marca, nome, categoria, funcionario)
+        cadastrar_modelo(id_marca, nome, categoria)
         print('Modelo cadastrado com sucesso!')
 
-    except (ValueError, PermissionError) as erro:
+    except ValueError as erro:
         print(erro)
 
     except psycopg.Error:
         print('Não foi possível cadastrar o modelo.')
 
-def tela_listar_modelos(funcionario):
+def tela_listar_modelos():
     """
         Exibe os modelos e as marcas correspondentes.
     """
@@ -103,7 +100,7 @@ def tela_listar_modelos(funcionario):
     print('\n--- Modelos cadastrados ---')
 
     try:
-        modelos = listar_modelos(funcionario)
+        modelos = listar_modelos()
 
         if not modelos:
             print('Nenhum modelo cadastrado.')
@@ -112,13 +109,13 @@ def tela_listar_modelos(funcionario):
         for modelo in modelos:
             _exibir_modelo(modelo)
 
-    except (ValueError, PermissionError) as erro:
+    except ValueError as erro:
         print(erro)
 
     except psycopg.Error:
         print('Não foi possível listar os modelos.')
 
-def tela_buscar_modelo(funcionario):
+def tela_buscar_modelo():
     """
         Solicita um ID e apresenta o modelo encontrado.
     """
@@ -128,15 +125,15 @@ def tela_buscar_modelo(funcionario):
 
     try:
         id_modelo = input('ID do modelo: ')
-        _exibir_modelo(buscar_modelo(id_modelo, funcionario))
+        _exibir_modelo(buscar_modelo(id_modelo))
 
-    except (ValueError, PermissionError) as erro:
+    except ValueError as erro:
         print(erro)
 
     except psycopg.Error:
         print('Não foi possível buscar o modelo.')
 
-def tela_atualizar_modelo(funcionario):
+def tela_atualizar_modelo():
     """
         Permite alterar campos escolhidos ou todos os dados do modelo.
     """
@@ -146,7 +143,7 @@ def tela_atualizar_modelo(funcionario):
 
     try:
         id_modelo = input('ID do modelo: ')
-        modelo = buscar_modelo(id_modelo, funcionario)
+        modelo = buscar_modelo(id_modelo)
         _exibir_modelo(modelo)
 
         print('\nO que deseja atualizar?')
@@ -183,16 +180,16 @@ def tela_atualizar_modelo(funcionario):
         if opcao in ('3', '4'):
             categoria = escolher_categoria(categoria)
            
-        atualizar_modelo(id_modelo, id_marca, nome, categoria, funcionario)
+        atualizar_modelo(id_modelo, id_marca, nome, categoria)
         print('Modelo atualizado com sucesso!')
 
-    except (ValueError, PermissionError) as erro:
+    except ValueError as erro:
         print(erro)
 
     except psycopg.Error:
         print('Não foi possível atualizar o modelo.')
 
-def tela_excluir_modelo(funcionario):
+def tela_excluir_modelo():
     """
         Apresenta o modelo e solicita confirmação da exclusão.
     """
@@ -202,7 +199,7 @@ def tela_excluir_modelo(funcionario):
 
     try:
         id_modelo = input('ID do modelo: ')
-        modelo = buscar_modelo(id_modelo, funcionario)
+        modelo = buscar_modelo(id_modelo)
 
         _exibir_modelo(modelo)
 
@@ -212,27 +209,19 @@ def tela_excluir_modelo(funcionario):
             print('Exclusão cancelada.')
             return
         
-        excluir_modelo(id_modelo, funcionario)
+        excluir_modelo(id_modelo)
         print('Modelo excluído com sucesso!')
 
-    except (ValueError, PermissionError) as erro:
+    except ValueError as erro:
         print(erro)
 
     except psycopg.Error:
         print('Não foi possível excluir o modelo.')
 
-def menu_modelos(funcionario):
+def menu_modelos():
     """
-        Restringe o acesso ao administrador e exibe as opções de modelos.
+        Exibe as opções de modelos.
     """
-
-    try:
-        exigir_administrador(funcionario)
-
-    except PermissionError as erro:
-        print(erro)
-        pausar_terminal()
-        return
 
     while True:
         limpar_terminal()
@@ -246,19 +235,19 @@ def menu_modelos(funcionario):
         opcao = input('Opção: ').strip()
 
         if opcao == '1':
-            tela_cadastrar_modelo(funcionario)
+            tela_cadastrar_modelo()
 
         elif opcao == '2':
-            tela_listar_modelos(funcionario)
+            tela_listar_modelos()
 
         elif opcao == '3':
-            tela_buscar_modelo(funcionario)
+            tela_buscar_modelo()
 
         elif opcao == '4':
-            tela_atualizar_modelo(funcionario)
+            tela_atualizar_modelo()
 
         elif opcao == '5':
-            tela_excluir_modelo(funcionario)
+            tela_excluir_modelo()
 
         elif opcao == '0':
             return

@@ -15,10 +15,6 @@ from src.utils.validators import (
     validate_money
 )
 
-def exigir_administrador(funcionario):
-    if not funcionario or funcionario.get('cargo') != 'admin':
-        raise PermissionError('Somente administradores podem gerenciar veículos.')
-
 def validate_year(value):
     try:
         value = int(value)
@@ -30,9 +26,7 @@ def validate_year(value):
 
     return value
 
-def cadastrar_veiculo(id_modelo, chassi, placa, ano_fabricacao,cor, preco_anunciado, funcionario):
-    exigir_administrador(funcionario)
-
+def cadastrar_veiculo(id_modelo, chassi, placa, ano_fabricacao,cor, preco_anunciado):
     id_modelo = validate_id(id_modelo)
     chassi = validate_chassis(chassi)
     placa = validate_plate(placa)
@@ -49,13 +43,10 @@ def cadastrar_veiculo(id_modelo, chassi, placa, ano_fabricacao,cor, preco_anunci
     except psycopg.errors.ForeignKeyViolation:
         raise ValueError('Modelo não encontrado.')
 
-def listar_veiculos(funcionario):
-    exigir_administrador(funcionario)
+def listar_veiculos():
     return listar_veiculos_repository()
-  
-def buscar_veiculo(id_veiculo, funcionario):
-    exigir_administrador(funcionario)
 
+def buscar_veiculo(id_veiculo):
     id_veiculo = validate_id(id_veiculo)
     veiculo = buscar_veiculo_por_id(id_veiculo)
 
@@ -64,9 +55,7 @@ def buscar_veiculo(id_veiculo, funcionario):
 
     return veiculo
 
-def atualizar_veiculo(id_veiculo, id_modelo, chassi, placa,ano_fabricacao, cor, preco_anunciado, funcionario):
-    exigir_administrador(funcionario)
-
+def atualizar_veiculo(id_veiculo, id_modelo, chassi, placa,ano_fabricacao, cor, preco_anunciado):
     id_veiculo = validate_id(id_veiculo)
     id_modelo = validate_id(id_modelo)
     chassi = validate_chassis(chassi)
@@ -87,8 +76,7 @@ def atualizar_veiculo(id_veiculo, id_modelo, chassi, placa,ano_fabricacao, cor, 
     if not atualizado:
         raise ValueError('Veículo não encontrado.')
 
-def excluir_veiculo(id_veiculo, funcionario):
-    exigir_administrador(funcionario)
+def excluir_veiculo(id_veiculo):
     id_veiculo = validate_id(id_veiculo)
 
     try:

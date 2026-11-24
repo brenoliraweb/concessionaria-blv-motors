@@ -173,7 +173,7 @@ def tela_atualizar_cliente():
     except psycopg.Error:
         print('Não foi possível atualizar o cliente.')
 
-def tela_excluir_cliente(funcionario):
+def tela_excluir_cliente():
     """
         Apresenta o cliente e solicita confirmação antes da exclusão.
     """
@@ -194,16 +194,16 @@ def tela_excluir_cliente(funcionario):
             print('Exclusão cancelada.')
             return
 
-        excluir_cliente(id_cliente, funcionario)
+        excluir_cliente(id_cliente)
         print('Cliente excluído com sucesso!')
 
-    except (ValueError, PermissionError) as erro:
+    except ValueError as erro:
         print(erro)
 
     except psycopg.Error:
         print('Não foi possível excluir o cliente.')
 
-def menu_clientes(funcionario):
+def menu_clientes():
     """
         Exibe o menu de clientes e direciona para as telas disponíveis.
     """
@@ -232,7 +232,7 @@ def menu_clientes(funcionario):
         elif opcao == '5':
             tela_atualizar_cliente()
         elif opcao == '6':
-            tela_excluir_cliente(funcionario)
+            tela_excluir_cliente()
         elif opcao == '0':
             return
         else:

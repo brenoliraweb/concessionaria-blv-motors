@@ -96,13 +96,10 @@ def atualizar_cliente(id_cliente, nome, cpf, telefone, email=None):
     if not atualizado:
         raise ValueError('Cliente não encontrado.')
 
-def excluir_cliente(id_cliente, funcionario):
+def excluir_cliente(id_cliente):
     """
-        Exige administrador e impede excluir cliente com vendas vinculadas.
+        Impede excluir cliente com vendas vinculadas.
     """
-
-    if not funcionario or funcionario.get('cargo') != 'admin':
-        raise PermissionError('Você não tem permissão para excluir clientes.')
 
     id_cliente = validate_id(id_cliente)
 
