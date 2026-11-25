@@ -1,4 +1,5 @@
 from src.utils.terminal import limpar_terminal, pausar_terminal
+from src.views.vendas.vendas_views import tela_registrar_venda
 from src.views.clientes.clientes_views import (
     tela_atualizar_cliente,
     tela_buscar_cliente_por_cpf,
@@ -34,8 +35,11 @@ def menu_vendedor(funcionario=None):
         elif opcao == '3':
             tela_buscar_cliente_por_cpf()
 
-        elif opcao in ('4', '5'):
+        elif opcao == '4':
             print('Em desenvolvimento.')
+
+        elif opcao == '5':
+            tela_registrar_venda(funcionario)
 
         elif opcao == '0':
             return

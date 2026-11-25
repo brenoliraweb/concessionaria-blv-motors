@@ -4,6 +4,7 @@ from src.views.funcionarios.funcionarios_views import menu_funcionarios
 from src.views.marcas.marcas_views import menu_marcas
 from src.views.modelos.modelos_views import menu_modelos
 from src.views.veiculos.veiculos_views import menu_veiculos
+from src.views.vendas.vendas_views import menu_vendas
 
 def menu_admin(funcionario=None):
     """
@@ -21,6 +22,7 @@ def menu_admin(funcionario=None):
         print('3 - Marcas')
         print('4 - Modelos')
         print('5 - Veiculos')
+        print('6 - Vendas')
         print('0 - Sair da conta')
 
         opcao = input('Opção: ').strip()
@@ -36,8 +38,12 @@ def menu_admin(funcionario=None):
 
         elif opcao == '4':
             menu_modelos()
+            
         elif opcao == '5':
             menu_veiculos()
+            
+        elif opcao == '6':
+            menu_vendas(funcionario)
 
         elif opcao == '0':
             return
